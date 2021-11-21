@@ -14,7 +14,7 @@ class RegisterSerializer(serializers.Serializer):
     school = serializers.CharField(max_length=150)
     student_number = serializers.CharField(max_length=150)
     major = serializers.CharField(max_length=150)
-    thumbnail = serializers.ImageField(use_url=True, allow_null=True)
+    thumbnail = serializers.ImageField(use_url=True, allow_null=True, required=False)
 
     """
     def validate(self, data):
