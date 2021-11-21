@@ -10,16 +10,18 @@ class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=50, min_length=2, required=True,
                                      validators=[UniqueValidator(queryset=User.objects.all())])
     password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    # password2 = serializers.CharField(write_only=True)
     school = serializers.CharField(max_length=150)
     student_number = serializers.CharField(max_length=150)
     major = serializers.CharField(max_length=150)
     thumbnail = serializers.ImageField(use_url=True, allow_null=True)
 
+    """
     def validate(self, data):
         if data['password1'] != data['password2']:
             raise serializers.ValidationError("The two password fields didn't match.")
         return data
+    """
 
     def get_cleaned_data(self):
         return {
