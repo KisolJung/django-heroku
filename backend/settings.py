@@ -175,6 +175,6 @@ CORS_ORIGIN_WHITELIST = [
 
 CORS_ALLOW_CREDENTIALS = False
 CORS_ORIGIN_ALLOW_ALL = True
-DISABLE_COLLECTSTATIC=1
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
