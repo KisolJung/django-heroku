@@ -179,5 +179,8 @@ CORS_ALLOW_CREDENTIALS = False
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+APPEND_SLASH=False
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+

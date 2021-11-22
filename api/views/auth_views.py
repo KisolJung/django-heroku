@@ -36,8 +36,6 @@ class UserDetailView(APIView):
     def get_object(self, id):
         try:
             user = User.objects.get(pk=id)
-            print(type(user))
-            print(user.username)
             return user
         except User.DoesNotExist:
             raise Http404
@@ -46,7 +44,6 @@ class UserDetailView(APIView):
         query = self.get_object(id)
         serializer = self.serializer_class(query)
         return Response(serializer.data)
-        # return Response(status=status.HTTP_200_OK)
 
 
 class UserDuplicateView(APIView):

@@ -108,7 +108,7 @@ class BoardCreateSerializer(serializers.Serializer):
                     mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
                     close_dt=None)
         board.save()
-
+        # todo: get latest item?
         return board
 
 
