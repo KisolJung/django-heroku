@@ -24,10 +24,10 @@ class Board(models.Model):
     term = models.IntegerField(default=1)
     link = models.TextField(blank=True)
 
-    close_dt = models.DateTimeField(null=True)
-    is_closed = models.BooleanField(default=False)
+    close_dt = models.DateTimeField(null=True) # 멘토링 종료
+    is_closed = models.BooleanField(default=False) # 종료
 
-    is_finished = models.BooleanField(default=False)
+    is_finished = models.BooleanField(default=False) # 조기 마감
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

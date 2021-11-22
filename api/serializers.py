@@ -82,7 +82,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ('mentor', 'title', 'contents', 'mentee_nums', 'term', 'link')
+        fields = '__all__'
 
 
 class BoardCreateSerializer(serializers.Serializer):
@@ -91,7 +91,6 @@ class BoardCreateSerializer(serializers.Serializer):
     mentee_nums = serializers.IntegerField(default=1)
     term = serializers.IntegerField(default=1)
     link = serializers.CharField(required=False)
-    close_dt = serializers.DateTimeField()
 
     def get_cleaned_data(self):
         return {
@@ -100,7 +99,6 @@ class BoardCreateSerializer(serializers.Serializer):
             'mentee_nums': self.validated_data.get('mentee_nums', ''),
             'term': self.validated_data.get('term', ''),
             'link': self.validated_data.get('link', ''),
-            'close_dt': self.validated_data.get('close_dt', ''),
         }
 
     def save(self, request):
@@ -108,7 +106,7 @@ class BoardCreateSerializer(serializers.Serializer):
         board\
             = Board(mentor=request.user, title=cd['title'], contents=cd['contents'],
                     mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
-                    close_dt=cd['close_dt'])
+                    close_dt=None)
         board.save()
 
         return board
