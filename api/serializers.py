@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .models import Profile
+from .models import Profile, Board, Match
 from django.contrib.auth import authenticate
 
 
@@ -77,3 +77,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'profile')
+
+
+class BoardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Board
+        fields = ('mentor', 'title', 'contents', 'mentee_nums', 'term', 'link')
+
