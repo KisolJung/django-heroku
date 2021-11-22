@@ -13,7 +13,7 @@ user_patterns = [
 ]
 
 board_pattenrs = [
-    path('mentor/', mentor.MentorView.as_view()),
+    path('mentor', mentor.MentorView.as_view()),
 ]
 
 urlpatterns = [

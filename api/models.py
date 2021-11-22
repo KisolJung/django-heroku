@@ -36,7 +36,7 @@ class Board(models.Model):
 
 class Match(models.Model):
     id = models.BigAutoField(primary_key=True)
-    mentee_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    mentee = models.ForeignKey(User, on_delete=models.CASCADE)
     board_id = models.ForeignKey(Board, on_delete=models.CASCADE)
     up_down = models.IntegerField(default=0)
     is_rated = models.BooleanField(default=False)
