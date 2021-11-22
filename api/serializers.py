@@ -84,3 +84,33 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = ('mentor', 'title', 'contents', 'mentee_nums', 'term', 'link')
 
+
+class BoardCreateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=20)
+    contents = serializers.CharField()
+    mentee_nums = serializers.IntegerField(default=1)
+    term = serializers.IntegerField(default=1)
+    link = serializers.CharField(required=False)
+    close_dt = serializers.DateTimeField()
+
+    def get_cleaned_data(self):
+        return {
+            'title': self.validated_data.get('title', ''),
+            'contents': self.validated_data.get('contents', ''),
+            'mentee_nums': self.validated_data.get('mentee_nums', ''),
+            'term': self.validated_data.get('term', ''),
+            'link': self.validated_data.get('link', ''),
+            'close_dt': self.validated_data.get('close_dt', ''),
+        }
+
+    def save(self, request):
+        cd = self.get_cleaned_data()
+        board\
+            = Board(mentor=request.user, title=cd['title'], contents=cd['contents'],
+                    mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
+                    close_dt=cd['close_dt'])
+        board.save()
+
+        return board
+
+
