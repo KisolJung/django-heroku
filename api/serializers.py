@@ -82,7 +82,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = '__all__'
+        exclude = ['mentor']
 
 
 class BoardCreateSerializer(serializers.Serializer):
