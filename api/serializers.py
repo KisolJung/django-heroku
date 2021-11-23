@@ -80,12 +80,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
-    # mentor = UserProfileSerializer()
+    mentor = UserProfileSerializer(read_only=True)
 
     class Meta:
         model = Board
-        exclude = ['mentor']
-
+        exclude = ['created_at', 'updated_at', 'is_deleted']
 
 
 class BoardCreateSerializer(serializers.Serializer):

@@ -28,7 +28,7 @@ class MentorView(APIView):
     @method_decorator(auth_required)
     def get(self, request):
         query = Board.objects.all()
-        serializer = BoardSerializer(query)
+        serializer = BoardSerializer(query, many=True)
         return Response(serializer.data)
 
 
