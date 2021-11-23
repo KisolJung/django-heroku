@@ -14,3 +14,9 @@ class IndexView(APIView):
             "test_message": "Hello World~"
         }
         return Response(contents, status=status.HTTP_200_OK)
+
+
+def check_user(owner_id, current_user_id):
+    if owner_id == current_user_id:
+        return True
+    return False

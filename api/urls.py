@@ -13,12 +13,14 @@ user_patterns = [
 ]
 
 board_pattenrs = [
-    path('mentor', mentor.MentorView.as_view()),
+    path('', mentor.MentorView.as_view()),
+    path('/mentor', mentor.MentorView.as_view()),
+    path('/detail/<int:board_id>', mentor.MentorDetailView.as_view()),
 ]
 
 urlpatterns = [
     path('', base_views.IndexView.as_view()),
     path('user/', include(user_patterns)),
-    path('board/', include(board_pattenrs)),
+    path('board', include(board_pattenrs)),
 ]
 

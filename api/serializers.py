@@ -87,6 +87,12 @@ class BoardSerializer(serializers.ModelSerializer):
         exclude = ['created_at', 'updated_at', 'is_deleted']
 
 
+class BoardPutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Board
+        fields = ('title', 'contents', 'mentee_nums', 'term', 'link')
+
+
 class BoardCreateSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=20)
     contents = serializers.CharField()
@@ -108,9 +114,10 @@ class BoardCreateSerializer(serializers.Serializer):
         board\
             = Board(mentor=request.user, title=cd['title'], contents=cd['contents'],
                     mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
-                    close_dt=None)
+                    finish_dt=None)
         board.save()
-        # todo: get latest item?
-        return board
+        res = Board.objects.latest('id')
+
+        return res
 
 
