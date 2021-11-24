@@ -115,7 +115,7 @@ class BoardCreateSerializer(serializers.Serializer):
 
         now = datetime.datetime.now()
         fin_time = now + datetime.timedelta(days=(int(cd['term'])+1))
-        fin_dt = (fin_time.year, fin_time.month, fin_time.day, 0, 0, 0)
+        fin_dt = datetime.datetime(fin_time.year, fin_time.month, fin_time.day, 0, 0, 0)
         board\
             = Board(mentor=request.user, title=cd['title'], contents=cd['contents'],
                     mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
