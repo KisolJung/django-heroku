@@ -55,6 +55,16 @@ class MentorDetailView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # patch add
+    def patch(self, request, board_id):
+        board = self.get_object(board_id)
+        if board.is_closed:
+            message = {"message": "이미 마감된 멘토링입니다."}
+            return Response(message, status=status.HTTP_403_FORBIDDEN)
+        board.is_closed = True
+        board.save()
+        message = {"message": "조기 마감 처리 했습니다."}
+        return Response(message, status=status.HTTP_200_OK)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     # delete add
 

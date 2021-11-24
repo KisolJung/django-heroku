@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from .models import Profile, Board, Match
 from django.contrib.auth import authenticate
+import datetime
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -111,13 +112,16 @@ class BoardCreateSerializer(serializers.Serializer):
 
     def save(self, request):
         cd = self.get_cleaned_data()
+
+        now = datetime.datetime.now()
+        fin_time = now + datetime.timedelta(days=(int(cd['term'])+1))
+        fin_dt = (fin_time.year, fin_time.month, fin_time.day, 0, 0, 0)
         board\
             = Board(mentor=request.user, title=cd['title'], contents=cd['contents'],
                     mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
-                    finish_dt=None)
+                    finish_dt=fin_dt)
         board.save()
         res = Board.objects.latest('id')
-
         return res
 
 
