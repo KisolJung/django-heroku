@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import base_views, auth_views as auth, mentor_views as mentor
+from .views import base_views, auth_views as auth, mentor_views as mentor, mentee_views as mentee
 
 
 user_patterns = [
@@ -12,15 +12,17 @@ user_patterns = [
     path('me', auth.UserView.as_view()),
 ]
 
-board_pattenrs = [
+board_patterns = [
     path('', mentor.MentorView.as_view()),
     path('/mentor', mentor.MentorView.as_view()),
+    path('/mentee/<int:board_id>', mentor.MentorView.as_view()),
     path('/detail/<int:board_id>', mentor.MentorDetailView.as_view()),
 ]
+
 
 urlpatterns = [
     path('', base_views.IndexView.as_view()),
     path('user/', include(user_patterns)),
-    path('board', include(board_pattenrs)),
+    path('board', include(board_patterns)),
 ]
 

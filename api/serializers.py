@@ -121,7 +121,7 @@ class BoardCreateSerializer(serializers.Serializer):
                     mentee_nums=cd['mentee_nums'], term=cd['term'], link=cd['link'],
                     finish_dt=fin_dt)
         board.save()
-        res = Board.objects.latest('id')
-        return res
+        contents = {"board_id": Board.objects.latest('id').id}
+        return contents
 
 
