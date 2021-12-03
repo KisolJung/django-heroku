@@ -85,11 +85,11 @@ class UserSwitchViews(APIView):
     def get(self, request):
 
         user = self.get_object(request.user.id)
-        login_as = user.login_as
+        login_as = user.profile.login_as
 
-        user.login_as = False if login_as else True
+        user.profile.login_as = False if login_as else True
 
-        user.save()
+        user.profile.save()
 
         serializer = self.serializer_class(request.user)
         return Response(serializer.data)
