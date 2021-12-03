@@ -10,6 +10,7 @@ user_patterns = [
     path('detail/<int:id>', auth.UserDetailView.as_view()),
     path('duplicate/<str:username>', auth.UserDuplicateView.as_view()),
     path('me', auth.UserView.as_view()),
+    path('switch', auth.UserSwitchViews.as_view()),
 ]
 
 board_patterns = [

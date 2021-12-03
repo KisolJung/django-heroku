@@ -71,3 +71,16 @@ class UserView(APIView):
         serializer = self.serializer_class(request.user)
         return Response(serializer.data)
 
+
+class UserSwitchViews(APIView):
+    serializer_class = UserProfileSerializer
+
+    @method_decorator(auth_required)
+    def get(self, request):
+        login_as = request.user.profile.login_as
+        if login_as:
+            serializer = self.serializer_class(request.user, {"login_as": False})
+        else:
+            serializer = self.serializer_class(request.user, {"login_as": True})
+
+        return Response(serializer.data)
