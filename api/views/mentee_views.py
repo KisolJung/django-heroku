@@ -28,24 +28,6 @@ class MenteeDetailView(APIView):
         serializer = BoardSerializer(query)
         return Response(serializer.data)
 
-    def put(self, request, board_id):
-        board = self.get_object(board_id)
-        serializer = BoardPutSerializer(board, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def patch(self, request, board_id):
-        board = self.get_object(board_id)
-        if board.is_closed:
-            message = {"message": "이미 마감된 멘토링입니다."}
-            return Response(message, status=status.HTTP_403_FORBIDDEN)
-        board.is_closed = True
-        board.save()
-        message = {"message": "조기 마감 처리 했습니다."}
-        return Response(message, status=status.HTTP_200_OK)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

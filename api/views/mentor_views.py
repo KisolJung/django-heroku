@@ -60,7 +60,7 @@ class MentorDetailView(APIView):
         return Response(serializer.data)
 
     @method_decorator(is_mentor)
-    def post(self, request, board_id):
+    def put(self, request, board_id):
         board = self.get_object(board_id)
 
         if board.is_deleted:
