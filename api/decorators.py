@@ -13,7 +13,7 @@ def auth_required(function):
 def is_mentor(function):
     def wrap(request, *args, **kwargs):
         if not request.user.profile.login_as:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response({"message": "멘토만 가능한 기능입니다."}, status=status.HTTP_403_FORBIDDEN)
         return function(request, *args, **kwargs)
     return wrap
 
@@ -21,6 +21,6 @@ def is_mentor(function):
 def is_mentee(function):
     def wrap(request, *args, **kwargs):
         if request.user.profile.login_as:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response({"message": "멘티만 가능한 기능입니다."}, status=status.HTTP_403_FORBIDDEN)
         return function(request, *args, **kwargs)
     return wrap
