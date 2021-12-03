@@ -125,3 +125,9 @@ class BoardCreateSerializer(serializers.Serializer):
         return contents
 
 
+class MatchCreateSerializer(serializers.ModelSerializer):
+    mentee = UserProfileSerializer(read_only=True)
+
+    class Meta:
+        model = Match
+        exclude = ['created_at', 'updated_at', 'is_deleted']

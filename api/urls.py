@@ -16,7 +16,7 @@ user_patterns = [
 board_patterns = [
     path('', mentor.MentorView.as_view()),
     path('/mentor', mentor.MentorView.as_view()),
-    path('/mentee/<int:board_id>', mentor.MentorView.as_view()),
+    path('/mentee/<int:board_id>', mentee.MenteeView.as_view()),
     path('/detail/<int:board_id>', mentor.MentorDetailView.as_view()),
 ]
 
