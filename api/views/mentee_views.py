@@ -21,8 +21,12 @@ class MenteeView(APIView):
             raise Http404
 
     def check_match(self, mentee_id, board_id):
-        match = Match.objects.get(mentee_id=mentee_id, board_id=board_id)
-        return True if match is None else False
+        try:
+            match = Match.objects.get(mentee_id=mentee_id, board_id=board_id)
+        except Match.DoesNotExist:
+            return True
+        else:
+            return True if match is None else False
 
     @transaction.atomic
     @method_decorator(is_mentee)
