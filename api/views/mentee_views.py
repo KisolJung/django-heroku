@@ -7,7 +7,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from ..models import Board, Match
-from ..decorators import is_mentee
 
 
 class MenteeView(APIView):
@@ -29,9 +28,10 @@ class MenteeView(APIView):
             return True if match is None else False
 
     @transaction.atomic
-    @method_decorator(is_mentee)
     def get(self, request, board_id):
         board = self.get_board(board_id)
+        if board.mentor.id == request.user.id:
+            return Response({"message": "자신의 멘토링은 신청할 수 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
         if self.check_match(request.user.id, board.id):
             match = Match(mentee=request.user, board=board)
             match.save()
