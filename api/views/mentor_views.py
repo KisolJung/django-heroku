@@ -19,6 +19,7 @@ def check_board_deleted(board):
         return Response(message, status=status.HTTP_404_NOT_FOUND)
     return
 
+
 def get_board(board_id):
     try:
         board = Board.objects.get(id=board_id, is_deleted=False)
@@ -52,14 +53,6 @@ class BoardDetailView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, id):
-        try:
-            board = Board.objects.get(pk=id)
-
-            return board
-        except Board.DoesNotExist:
-            raise Http404
-
     def get(self, request, board_id):
         query = get_board(board_id)
         check_board_deleted(query)
@@ -67,7 +60,7 @@ class BoardDetailView(APIView):
         return Response(serializer.data)
 
     def put(self, request, board_id):
-        board = self.get_object(board_id)
+        board = get_board(board_id)
 
         check_board_deleted(board)
 
@@ -82,7 +75,7 @@ class BoardDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, board_id):
-        board = self.get_object(board_id)
+        board = get_board(board_id)
         check_board_deleted(board)
 
         if not check_user(board.mentor.id, request.user.id):
@@ -98,7 +91,7 @@ class BoardDetailView(APIView):
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, board_id):
-        board = self.get_object(board_id)
+        board = get_board(board_id)
         if not check_user(board.mentor.id, request.user.id):
             message = {"message": "작성자가 아닙니다."}
             return Response(message, status=status.HTTP_403_FORBIDDEN)
