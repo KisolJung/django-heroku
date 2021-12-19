@@ -70,27 +70,3 @@ class UserView(APIView):
     def get(self, request):
         serializer = self.serializer_class(request.user)
         return Response(serializer.data)
-
-
-class UserSwitchViews(APIView):
-    serializer_class = UserProfileSerializer
-
-    def get_object(self, user_id):
-        try:
-            return User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            return None
-
-    @method_decorator(auth_required)
-    def get(self, request):
-
-        user = self.get_object(request.user.id)
-        login_as = user.profile.login_as
-
-        user.profile.login_as = False if login_as else True
-
-        user.profile.save()
-
-        serializer = self.serializer_class(request.user)
-        return Response(serializer.data)
-

@@ -1,3 +1,4 @@
+import datetime
 from django.db import transaction
 from django.http import Http404
 from django.contrib.auth.models import User
@@ -22,7 +23,9 @@ def get_board(board_id):
     try:
         board = Board.objects.get(id=board_id, is_deleted=False)
         if not board.is_finished:
-            pass
+            if board.finish_dt >= datetime.now():
+                board.is_finished = True
+                board.save()
         return board
     except Board.DoesNotExist:
         raise Http404
@@ -58,7 +61,7 @@ class BoardDetailView(APIView):
             raise Http404
 
     def get(self, request, board_id):
-        query = self.get_object(board_id)
+        query = get_board(board_id)
         check_board_deleted(query)
         serializer = BoardSerializer(query)
         return Response(serializer.data)
