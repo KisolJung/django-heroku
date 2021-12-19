@@ -23,7 +23,7 @@ def get_board(board_id):
     try:
         board = Board.objects.get(id=board_id, is_deleted=False)
         if not board.is_finished:
-            if board.finish_dt >= datetime.datetime.now():
+            if board.finish_dt <= datetime.datetime.now():
                 board.is_finished = True
                 board.save()
         return board
