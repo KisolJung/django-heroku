@@ -33,9 +33,22 @@ class MenteeView(APIView):
         else:
             return True if match is None else False
 
+    def mentee_nums(self, board_id):
+        try:
+            match_list = Match.objects.filter(board_id=board_id)
+        except Match.DoesNotExist:
+            return 0
+        else:
+            return len(match_list)
+
     @transaction.atomic
     def get(self, request, board_id):
         board = get_board(board_id)
+        if board.is_closed or board.is_finished:
+            return Response({"message": "이미 마감된 멘토링 입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        elif self.mentee_nums(board_id) >= board.mentee_nums:
+            return Response({"message": "이미 멘티가 모두 모집된 멘토링입니다."}, status=status.HTTP_400_BAD_REQUEST)
+
         if board.mentor.id == request.user.id:
             return Response({"message": "자신의 멘토링은 신청할 수 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
         if self.check_match(request.user.id, board.id):
